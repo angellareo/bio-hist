@@ -42,12 +42,7 @@ public:
             for (unsigned j = 0; j < _probabilities.size2(); ++j){
                 _probabilities(i,j)=0;
         }
-        
-        /*
-        for (unsigned i = 0; i < (signal.size()-1); ++i){
-            _probabilities (signal[i], signal[i+1]) += (1.0/(signal.size()-1));
-            std::cout << "(" << signal[i] << "," << signal[i+1] << ")" << std::endl;
-        }*/
+
 
         for (unsigned i = 0; i < _probabilities.size1(); ++i){
             for (unsigned j = 0; j < _probabilities.size2(); ++j){

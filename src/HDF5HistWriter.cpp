@@ -1,11 +1,6 @@
-#include <iostream>
-#include <algorithm>
-#include <vector>
-#include <utility>
-
 //      HDF5HistWriter.cpp
 //      
-//      Copyright 2013 Ángel Lareo <angel.lareo@gmail.com>
+//      Copyright 2015 Ángel Lareo <angel.lareo@gmail.com>
 //      
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
@@ -22,15 +17,20 @@
 //      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //      MA 02110-1301, USA.
 
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <utility>
 #include <boost/lexical_cast.hpp>
-
 #include "HDF5HistWriter.h"
 
 using namespace std;
 using namespace libStats;
 
 HDF5HistWriter::HDF5HistWriter(std::string fileName, vector<int> wordLengths, vector<float> binTimes) : 
-									_entropyStats(fileName, "Entropy"), _errorsStats(fileName, "Errors"),_fileName(fileName){
+									_entropyStats(fileName, "Entropy"),
+                                    _errorsStats(fileName, "Errors"),
+                                    _fileName(fileName){
 	hsize_t wordLengthDims[2];
 	hsize_t binTimeDims[2];
 	hsize_t entropyDims[2];
@@ -46,6 +46,8 @@ HDF5HistWriter::HDF5HistWriter(std::string fileName, vector<int> wordLengths, ve
 	_wordLengthStreamer = _entropyStats.get_matrix_streamer(wordLengthDims, "WordLengths");
 
 	_entropyStreamer = _entropyStats.get_matrix_streamer(entropyDims, "Data");
+    _biasStreamer = _entropyStats.get_matrix_streamer(entropyDims, "Bias");
+    _correctedEntropyStreamer = _entropyStats.get_matrix_streamer(entropyDims, "CorrectedEntropy");
     
     _errorsStreamer = _errorsStats.get_matrix_streamer(errorDims, "Data");
 
@@ -87,13 +89,22 @@ void HDF5HistWriter::writeEntropy(float entropy, float binTime, int wordLength){
 	*_entropyStreamer << entropy << binTime << wordLength;
 }
 
+
+void HDF5HistWriter::writeBias(float bias, float binTime, int wordLength){
+	*_biasStreamer << bias << binTime << wordLength;
+}
+
+
+void HDF5HistWriter::writeCorrectedEntropy(float correctedEntropy, float binTime, int wordLength){
+	*_correctedEntropyStreamer << correctedEntropy << binTime << wordLength;
+}
+
 void HDF5HistWriter::writeHistData(histVector orderedHist, std::pair<float, int> GroupName, hsize_t histDims[2]){
 	libStats::Statistics stats(_fileName, string("Hist_" + boost::lexical_cast<string>(GroupName.first) + "_" + boost::lexical_cast<string>(GroupName.second)));
 	
 	auto streamer = stats.get_matrix_streamer(histDims, "HistData");
 	for(pair<int,int> words_pair : orderedHist){
 		if (words_pair.first==0) break;
-		//cout << words_pair.second << " " << words_pair.first << endl;
 		*streamer << words_pair.second << words_pair.first;  //second=Word  first=#
 	}
 	stats.dump();

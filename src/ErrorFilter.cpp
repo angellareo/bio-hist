@@ -1,6 +1,6 @@
 //      ErrorFilter.cpp
 //      
-//      Copyright 2013 Ángel Lareo <angel.lareo@gmail.com>
+//      Copyright 2015 Ángel Lareo <angel.lareo@gmail.com>
 //      
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ void ErrorFilter::update(double time){
     }
     
     if (floor(time/_binTime) < _lastBitNum){
-        cout << "<ErrorFilter> UPDATE ERROR: Decreasing time." << endl;
+        cout << "<ErrorFilter> UPDATE ERROR: Decreasing time." << endl; //@ToDo: Exception!
     }
     
     if (floor(time/_binTime) == _lastBitNum){
@@ -46,7 +46,7 @@ void ErrorFilter::update(double time){
     
     if (floor(time/_binTime) > _lastBitNum){
         notify(_lastBit);
-        
+
         for (int i = 1; i < (floor(time/_binTime) - _lastBitNum); i++){
             notify(0);
         }

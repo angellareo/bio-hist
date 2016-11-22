@@ -1,3 +1,22 @@
+//      pexHist.cpp
+//      
+//      Copyright 2015 Ángel Lareo <angel.lareo@gmail.com>
+//      
+//      This program is free software; you can redistribute it and/or modify
+//      it under the terms of the GNU General Public License as published by
+//      the Free Software Foundation; either version 2 of the License, or
+//      (at your option) any later version.
+//      
+//      This program is distributed in the hope that it will be useful,
+//      but WITHOUT ANY WARRANTY; without even the implied warranty of
+//      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//      GNU General Public License for more details.
+//      
+//      You should have received a copy of the GNU General Public License
+//      along with this program; if not, write to the Free Software
+//      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+//      MA 02110-1301, USA.
+
 #include <iostream>
 #include <cstdlib>
 #include <fstream>
@@ -17,12 +36,7 @@
 
 using namespace std;
 
-//@todo: get config file from command line
-
-
-//@todo move program logic to specific classes: Keep main only to initialize GUI & classes
 int main(int argc, char* argv[]){
-    //float entropy = 0.0;
 	vector< shared_ptr<ErrorFilter> > EFilters;
 	vector< shared_ptr<WordHistGenerator> > HistGens;
     vector<float> binTimes;
@@ -33,19 +47,19 @@ int main(int argc, char* argv[]){
 		return 0;
 	}
 	
-	//@todo: move to ProblemConfig class + exception
+
 	ifstream test(argv[1]);
 	if (!test.good()){
 		cout << "Error: Bad config file" << endl;
 		return 0;
 	}
 
-    //@todo: read config filename from command line
+
     if (argc!=4){
-		info = make_shared<ProblemConfig> (ProblemConfig("config.yaml"));
+		info = make_shared<ProblemConfig> (ProblemConfig(argv[1]));
 	}
 	else{
-		info = make_shared<ProblemConfig> (ProblemConfig("config.yaml", argv[2], argv[3]));
+		info = make_shared<ProblemConfig> (ProblemConfig(argv[1], argv[2], argv[3]));
 	}
 
     HDF5HistWriter H5FileWriter(info->getOutputFileName(), info->getWordLengths(), info->getBinTimes());    
@@ -66,7 +80,7 @@ int main(int argc, char* argv[]){
     
     sp->run();
     
-    //@todo: move to a class -> printResults
+
     for (auto histGen : HistGens){
         auto hist = histGen->getHist();
         hsize_t histDims[2];
@@ -77,11 +91,15 @@ int main(int argc, char* argv[]){
         H5FileWriter.writeHistData(hist, par, histDims);
         H5FileWriter.writeEntropy(histGen->getEntropy()/histGen->getWordLength(), 
                                         histGen->getBinTime(), histGen->getWordLength());
+		//H5FileWriter.writeBias(histGen->getBias(),
+                                        //histGen->getBinTime(), histGen->getWordLength());
+        //H5FileWriter.writeCorrectedEntropy(histGen->getCorrectedEntropy(),
+                                        //histGen->getBinTime(), histGen->getWordLength());
     }
     
     for (auto eFilter : EFilters){
         H5FileWriter.writeErrors(eFilter->getErrors(), eFilter->getBitErrors(), eFilter->getBinTime());
     }
-    
+  
     return 0;
 }

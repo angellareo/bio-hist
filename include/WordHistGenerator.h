@@ -42,24 +42,36 @@ private:
     int _wordLength;
     int _binTime;
     int _maxWords;
-    float _entropy;
+    float _entropy=-1;
+    float _bias=-1;
     
     WordsBuffer _wordsbuf;
     
-    std::unique_ptr<int[]> _hist;
     std::vector< std::pair<int,int> > _wordsPosVector;
     
+    void calculateEntropy(){
+        _entropy = 0;
+        for (std::vector< std::pair<int,int> >::iterator it = _wordsPosVector.begin(); (it != _wordsPosVector.end()); ++it){
+			float prob = static_cast< float >(it->first)/_wordsbuf.numWords;
+            if ((prob > 0.0000001)||(prob < -0.0000001)){
+                _entropy -= prob * (log(prob)/log(2));
+                //cout << "----word#: " << *it << " Entropy: " << entropy << " Prob: " << prob << " log2(p): "<< (log(prob)/log(2)) << endl;
+            }
+        }
+    }
+
+    void calculateBias(){
+        _bias = (-_wordsbuf.maxWords+1)/(2*_wordsbuf.numWords*0.69314718055994530941723212145818 /*ln 2*/ );
+    }
+
 public:
+
     WordHistGenerator(int wordLength, std::shared_ptr<SpikesObserver> mod) : BitsObserver (mod){
         _binTime = mod->getBinTime();
-        _maxWords=(int)pow(2,wordLength); 
-        
-        _hist = std::unique_ptr<int[]>(new int[_maxWords]());
-        for (int i=0; i<_maxWords; i++){
-            _hist[i] = 0;
-        }
+        _maxWords=(int)pow(2,wordLength);
+
         _wordLength=wordLength;
-        wbInit(&_wordsbuf, wordLength, MAX_WORDS_BUFF);        
+        wbInit(&_wordsbuf, wordLength, _maxWords);        
     }
     
     virtual ~WordHistGenerator(){
@@ -69,7 +81,8 @@ public:
     void update(int bit){
         if (bit==BIT_END){
             createHist();
-            calculateEntropy();
+            //calculateEntropy();
+            //calculateBias();
             return;
         }
         
@@ -82,26 +95,17 @@ public:
         wbStoreWord(&_wordsbuf);
     }
     
-    void createHist(){        
-        wbCreateHistogram(&_wordsbuf, _hist.get());
-        std::vector<int> wordsVec(_hist.get(), _hist.get()+_maxWords);
+    void createHist(){  
+        int hist[_maxWords];
+        wbCreateHistogram(&_wordsbuf, hist);
+        std::vector<int> wordsVec(hist, hist+_maxWords);
         
+        int pos = 0; 
         for (std::vector<int>::iterator it = wordsVec.begin(); (it != wordsVec.end()); ++it){
-            _wordsPosVector.push_back(std::pair<int,int>(*it,it-wordsVec.begin()));
+            _wordsPosVector.push_back(std::pair<int,int>(*it, pos++));
         }
         
         std::sort(_wordsPosVector.begin(), _wordsPosVector.end(), std::greater< std::pair<int,int> > ());
-    }
-    
-    void calculateEntropy(){
-        _entropy = 0;
-        for (std::vector< std::pair<int,int> >::iterator it = _wordsPosVector.begin(); (it != _wordsPosVector.end()); ++it){
-			float prob = static_cast< float >(it->first)/_wordsbuf.numWords;
-            if ((prob > 0.0000001)||(prob < -0.0000001)){
-                _entropy -= prob * (log(prob)/log(2));
-                //cout << "----word#: " << *it << " Entropy: " << entropy << " Prob: " << prob << " log2(p): "<< (log(prob)/log(2)) << endl;
-            }
-        }
     }
     
     std::vector< std::pair<int,int> > getHist(){
@@ -121,7 +125,21 @@ public:
     }
     
     float getEntropy(){
+        if (_entropy==-1){
+            calculateEntropy();
+        }
         return _entropy;
+    }
+
+    float getBias(){
+        if (_bias==-1){
+            calculateBias();
+        }
+        return _bias;
+    }
+    
+    float getCorrectedEntropy(){
+        return (_entropy - _bias);
     }
 };
 

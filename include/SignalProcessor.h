@@ -39,7 +39,7 @@ private:
     double _endTime;
     std::unique_ptr<SpikeDetector> _spkDetector;
     std::shared_ptr<ProblemConfig> _info;
-    void split(const std::string& str, const std::string& delim, std::vector<std::string>& parts);
+    std::vector<std::string>  split(const std::string &s, char delim);
     
 public:
     SignalProcessor(std::shared_ptr<ProblemConfig> info);

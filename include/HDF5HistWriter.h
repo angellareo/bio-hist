@@ -1,6 +1,6 @@
 //      HDF5HistWriter.h
 //      
-//      Copyright 2013 Ángel Lareo <angel.lareo@gmail.com>
+//      Copyright 2015 Ángel Lareo <angel.lareo@gmail.com>
 //      
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
@@ -33,6 +33,8 @@ private:
    	libStats::Statistics _errorsStats;
 	std::string _fileName;
 	libStats::MatrixStreamer::SharedPtr _entropyStreamer;
+	libStats::MatrixStreamer::SharedPtr _biasStreamer;
+	libStats::MatrixStreamer::SharedPtr _correctedEntropyStreamer;
 	libStats::MatrixStreamer::SharedPtr _binTimeStreamer;
 	libStats::MatrixStreamer::SharedPtr _wordLengthStreamer;
     libStats::MatrixStreamer::SharedPtr _errorsStreamer;
@@ -50,6 +52,8 @@ public:
 	void writeWordLength(int wordLength);
 
 	void writeEntropy(float entropy, float binTime, int wordLength);
+    void writeBias(float bias, float binTime, int wordLength);
+    void writeCorrectedEntropy(float correctedEntropy, float binTime, int wordLength);
     void writeErrors(int errors, int bitErrors, float binTime);
 	void writeHistData(histVector orderedHist, floatIntPair GroupName, hsize_t histDims[2]);
 };
