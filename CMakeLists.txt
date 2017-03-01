@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
-project(PezHist CXX)
+project(PezHist C CXX)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake.modules/")
 
@@ -33,4 +33,6 @@ endif (STATS)
 find_package(YamlCpp REQUIRED)
 
 
+add_subdirectory(wordsBuffer)    
+add_subdirectory(libStats)
 add_subdirectory(src)
