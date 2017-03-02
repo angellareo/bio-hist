@@ -40,9 +40,6 @@ class BinSignalGenerator : public BitsObserver
 {
 private:
     int _numBits;
-    int _wordLength;
-    int _binTime;
-    int _maxWords;
     float _entropy;
 
     WordsBuffer _wordsbuf;
@@ -55,12 +52,8 @@ public:
     static const int WORD_RESET=-1;
     static const int SIGNAL_END=-2;
 
-    BinSignalGenerator(int wordLength, std::shared_ptr<SpikesObserver> mod) : BitsObserver (mod) {
-        _binTime = mod->getBinTime();
-        _maxWords=(int)pow(2,wordLength); 
+    BinSignalGenerator(int wordLength, std::shared_ptr<SpikesObserver> mod) : BitsObserver (wordLength, mod) {
         _numBits = 0;
-
-        _wordLength=wordLength;
         wbInit(&_wordsbuf, wordLength, MAX_WORDS_BUFF);        
     }
     
@@ -88,18 +81,6 @@ public:
             wbStoreWord(&_wordsbuf);
             notify(_wordsbuf.words[_wordsbuf.numWords-1]);
         }
-    }
-    
-    int getWordLength(){
-        return _wordLength;
-    }
-    
-    int getBinTime(){
-        return _binTime;
-    }
-    
-    int getMaxWords(){
-        return _maxWords;
     }
     
     std::vector<int> getBinSignal(){

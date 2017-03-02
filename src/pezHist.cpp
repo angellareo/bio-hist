@@ -34,6 +34,7 @@
 #include "ErrorFilter.h"
 #include "WordHistGenerator.h"
 #include "Transitions.h"
+#include <boost/numeric/ublas/io.hpp> 
 
 using namespace std;
 
@@ -64,7 +65,7 @@ int main(int argc, char* argv[]){
 		info = make_shared<ProblemConfig> (ProblemConfig(argv[1], argv[2], argv[3]));
 	}
 
-    HDF5HistWriter H5FileWriter(info->getOutputFileName(), info->getWordLengths(), info->getBinTimes());    
+    HDF5TransitionsWriter H5FileWriter(info->getOutputFileName(), info->getWordLengths(), info->getBinTimes());    
 
     H5FileWriter.writeProblemInfo(info);
     
@@ -77,31 +78,28 @@ int main(int argc, char* argv[]){
         for (int wL : info->getWordLengths()){
             shared_ptr<BinSignalGenerator> binSignalGen(new BinSignalGenerator(wL,errorFilter));
             HistGens.push_back(binSignalGen);
-            shared_ptr<Transitions> transitionGen(new Transitions(binSignalGen, (int)pow(2,wL)));
+            shared_ptr<Transitions> transitionGen(new Transitions(binSignalGen, binSignalGen->getMaxWords()));
             TransitionGens.push_back(transitionGen);
         }
     }
     
     sp->run();
-    
-    for (auto tr : TransitionGens){
-        tr->printTransitionMatrix();
-    }
-    /*for (auto histGen : HistGens){
-        auto hist = histGen->getHist();
-        hsize_t histDims[2];
-        histDims[0]=histGen->getMaxWords(); histDims[1]=2;
+
+    for (auto transGen : TransitionGens){
+        auto tran = transGen->getTransitionProbabilities();
+        hsize_t transitionMatrixDims[2];
+        transitionMatrixDims[0]=transGen->getNStates(); transitionMatrixDims[1]=transGen->getNStates();
         
-        pair<float,int> par(histGen->getBinTime(),histGen->getWordLength());
+        pair<float,int> par(transGen->getSubject()->getBinTime(),transGen->getSubject()->getWordLength());
         
-        H5FileWriter.writeHistData(hist, par, histDims);
-        H5FileWriter.writeEntropy(histGen->getEntropy()/histGen->getWordLength(), 
-                                        histGen->getBinTime(), histGen->getWordLength());
+        H5FileWriter.writeTransitions(std::move(transGen->getTransitionProbabilities()), par, transitionMatrixDims);
+        //H5FileWriter.writeEntropy(histGen->getEntropy()/histGen->getWordLength(), 
+                                        //histGen->getBinTime(), histGen->getWordLength());
 		//H5FileWriter.writeBias(histGen->getBias(),
                                         //histGen->getBinTime(), histGen->getWordLength());
         //H5FileWriter.writeCorrectedEntropy(histGen->getCorrectedEntropy(),
                                         //histGen->getBinTime(), histGen->getWordLength());
-    }*/
+    }
     
     /*for (auto eFilter : EFilters){
         H5FileWriter.writeErrors(eFilter->getErrors(), eFilter->getBitErrors(), eFilter->getBinTime());

@@ -40,8 +40,6 @@ private:
     //const int BIT_ERROR=-1;
     //const int BIT_END=-2;
 
-    int _wordLength;
-    int _maxWords;
     int _numWords;
     float _entropy=-1;
     float _bias=-1;
@@ -60,14 +58,13 @@ private:
     }
 
     void calculateBias(){
-        _bias = (-_maxWords+1)/(2*_numWords*0.69314718055994530941723212145818 /*ln 2*/ );
+        _bias = (-getSubject()->getMaxWords()+1)/(2*_numWords*0.69314718055994530941723212145818 /*ln 2*/ );
     }
 
 public:
 
-    WordHistGenerator(int wordLength, std::shared_ptr<BitsObserver> mod) : WordsObserver (mod){
-        _maxWords=(int)pow(2,wordLength);
-        _wordLength=wordLength;      
+    WordHistGenerator(std::shared_ptr<BitsObserver> mod) : WordsObserver (mod){
+          
     }
     
     virtual ~WordHistGenerator(){
@@ -86,7 +83,7 @@ public:
     }
     
     void createHist(){
-        std::vector<int> v(_maxWords,0);
+        std::vector<int> v(getSubject()->getMaxWords(),0);
         _hist = std::move(v);
         for(auto word : _wordsBuf){
             _hist[word]++;
@@ -95,14 +92,6 @@ public:
     
     std::vector<int> getHist(){
         return _hist;
-    }
-    
-    int getWordLength(){
-        return _wordLength;
-    }
-    
-    int getMaxWords(){
-        return _maxWords;
     }
     
     float getEntropy(){

@@ -23,9 +23,13 @@
 
 using namespace std;
 
-BitsObserver::BitsObserver(shared_ptr<SpikesObserver> mod) {
+BitsObserver::BitsObserver(int wordLength, shared_ptr<SpikesObserver> mod) {
     _model = mod;
     _model->attach(this);
+
+    _binTime = mod->getBinTime();
+    _wordLength= wordLength;
+    _maxWords=(int)pow(2,_wordLength); 
 }
 
 shared_ptr<SpikesObserver> BitsObserver::getSubject() {

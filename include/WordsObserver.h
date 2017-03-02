@@ -36,8 +36,9 @@ public:
     }
     virtual ~WordsObserver(){}
     virtual void update(int bit) = 0;
-protected:
-    BitsObserver* getSubject();
+    std::shared_ptr<BitsObserver> getSubject(){
+    	return _model;
+    }
 };
 
 #endif /* __WORDS_OBSERVER_H__ */

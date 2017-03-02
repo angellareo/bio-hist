@@ -3,7 +3,7 @@
 
 #I/O files
 
-inputFile: /media/alareo/TOSHIBA EXT/GNB-Doctorado/RawData/03-jul-2013/15h42m07s-03-jul-2013.dat
+inputFile: /media/alareo/TOSHIBA EXT/GNB-Doctorado/RawData/01-Jul-2016/16h04m16s-01-Jul-2016.dat
 outputFile: files/ejemploTransition.h5
 
 #Spike Detector: Upcross, Downcross or FormSpike

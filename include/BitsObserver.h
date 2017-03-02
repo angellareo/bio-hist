@@ -38,11 +38,25 @@ private:
     std::vector<WordsObserver*> _views;
 
 public:
-    BitsObserver(std::shared_ptr<SpikesObserver> mod);
+    BitsObserver(int wordLength, std::shared_ptr<SpikesObserver> mod);
     virtual ~BitsObserver(){}
     virtual void update(int bit) = 0;
     void attach(WordsObserver *obs);
+    int getWordLength(){
+        return _wordLength;
+    }
+    
+    int getBinTime(){
+        return _binTime;
+    }
+
+    int getMaxWords(){
+        return _maxWords;
+    }
 protected:
+	int _wordLength;
+    int _binTime;
+    int _maxWords;
     std::shared_ptr<SpikesObserver> getSubject();
     void notify(int bit);
 };

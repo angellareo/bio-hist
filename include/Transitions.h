@@ -40,6 +40,9 @@ private:
     boost::numeric::ublas::matrix<int> _probabilities;
 
 public:
+    typedef boost::numeric::ublas::matrix<float> TransitionMatrix;
+    static const int WORD_RESET=-1;
+
     Transitions(std::shared_ptr<BitsObserver> subject, int numberOfStates) : WordsObserver(subject), nStates(numberOfStates)
     {
         _probabilities = boost::numeric::ublas::matrix<int>(nStates,nStates);
@@ -53,13 +56,13 @@ public:
 
     void update(int word){ 
         //std::cout << word << std::endl;
-        if (word == -1)
+        if (word == WORD_RESET)
             lastWord=word;
         else addTransition(word);
     }
 
     void addTransition(int destWord){
-        if (lastWord==-1){ //Initial word of a transition
+        if (lastWord==WORD_RESET){ //Initial word of a transition
             lastWord = destWord;
         }
         else{
@@ -75,8 +78,8 @@ public:
         nTrans--;
     }
 
-    boost::numeric::ublas::matrix<double> getTransitionProbabilities(){
-        boost::numeric::ublas::matrix<double> _resProbabilities(nStates,nStates);
+    TransitionMatrix getTransitionProbabilities(){
+        TransitionMatrix _resProbabilities(nStates,nStates);
 
         for (unsigned i = 0; i < _probabilities.size1(); ++i){
             for (unsigned j = 0; j < _probabilities.size2(); ++j){
@@ -92,6 +95,10 @@ public:
 
     void printTransitionMatrix(){
         std::cout << _probabilities << std::endl;
+    }
+
+    int getNStates(){
+        return nStates;
     }
 
 };

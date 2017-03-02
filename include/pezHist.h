@@ -36,6 +36,7 @@
 #include <cmath>
 
 #include "HDF5HistWriter.h"
+#include "HDF5TransitionsWriter.h"
 #include "ProblemInfo.h"
 #include "ProblemConfig.h"
 
