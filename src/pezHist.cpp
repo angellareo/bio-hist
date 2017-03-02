@@ -33,12 +33,14 @@
 #include "SignalProcessor.h"
 #include "ErrorFilter.h"
 #include "WordHistGenerator.h"
+#include "Transitions.h"
 
 using namespace std;
 
 int main(int argc, char* argv[]){
 	vector< shared_ptr<ErrorFilter> > EFilters;
-	vector< shared_ptr<WordHistGenerator> > HistGens;
+	vector< shared_ptr<BinSignalGenerator> > HistGens;
+    vector< shared_ptr<Transitions> > TransitionGens;
     vector<float> binTimes;
 	shared_ptr<ProblemConfig> info;
 	
@@ -73,15 +75,19 @@ int main(int argc, char* argv[]){
         shared_ptr<ErrorFilter> errorFilter(new ErrorFilter(bT, info->getTotalTime(), sp));
         EFilters.push_back(errorFilter);
         for (int wL : info->getWordLengths()){
-            shared_ptr<WordHistGenerator> wordHistGen(new WordHistGenerator(wL,errorFilter));
-            HistGens.push_back(wordHistGen);
+            shared_ptr<BinSignalGenerator> binSignalGen(new BinSignalGenerator(wL,errorFilter));
+            HistGens.push_back(binSignalGen);
+            shared_ptr<Transitions> transitionGen(new Transitions(binSignalGen, (int)pow(2,wL)));
+            TransitionGens.push_back(transitionGen);
         }
     }
     
     sp->run();
     
-
-    for (auto histGen : HistGens){
+    for (auto tr : TransitionGens){
+        tr->printTransitionMatrix();
+    }
+    /*for (auto histGen : HistGens){
         auto hist = histGen->getHist();
         hsize_t histDims[2];
         histDims[0]=histGen->getMaxWords(); histDims[1]=2;
@@ -95,11 +101,11 @@ int main(int argc, char* argv[]){
                                         //histGen->getBinTime(), histGen->getWordLength());
         //H5FileWriter.writeCorrectedEntropy(histGen->getCorrectedEntropy(),
                                         //histGen->getBinTime(), histGen->getWordLength());
-    }
+    }*/
     
-    for (auto eFilter : EFilters){
+    /*for (auto eFilter : EFilters){
         H5FileWriter.writeErrors(eFilter->getErrors(), eFilter->getBitErrors(), eFilter->getBinTime());
-    }
+    }*/
   
     return 0;
 }

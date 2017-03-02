@@ -26,33 +26,72 @@
 #include <utility>
 #include <algorithm>
 #include <boost/numeric/ublas/matrix.hpp>
+#include <boost/numeric/ublas/io.hpp> 
 
-class Transitions
+#include "WordsObserver.h"
+
+class Transitions : public WordsObserver
 {
 private:
-    boost::numeric::ublas::matrix<double> _initial;
-    boost::numeric::ublas::matrix<double> _probabilities;
+    int nStates;
+    int nTrans = 0;
+    int lastWord = -1;
+
+    boost::numeric::ublas::matrix<int> _probabilities;
 
 public:
-    Transitions(std::vector<int> signal, int numberOfStates)
+    Transitions(std::shared_ptr<BitsObserver> subject, int numberOfStates) : WordsObserver(subject), nStates(numberOfStates)
     {
-        _probabilities = boost::numeric::ublas::matrix<double>(numberOfStates,numberOfStates);
+        _probabilities = boost::numeric::ublas::matrix<int>(nStates,nStates);
         
-        for (unsigned i = 0; i < _probabilities.size1(); ++i)
-            for (unsigned j = 0; j < _probabilities.size2(); ++j){
-                _probabilities(i,j)=0;
-        }
-
-
         for (unsigned i = 0; i < _probabilities.size1(); ++i){
             for (unsigned j = 0; j < _probabilities.size2(); ++j){
-                std::cout << _probabilities(i,j) << " ";
+                _probabilities(i,j)=0;
             }
-            std::cout << std::endl;
         }
     }
 
+    void update(int word){ 
+        //std::cout << word << std::endl;
+        if (word == -1)
+            lastWord=word;
+        else addTransition(word);
+    }
+
+    void addTransition(int destWord){
+        if (lastWord==-1){ //Initial word of a transition
+            lastWord = destWord;
+        }
+        else{
+            _probabilities(lastWord, destWord)++;
+            //std::cout << "(" << lastWord << "," << destWord << ") = " << _probabilities(lastWord, destWord) << std::endl;
+            nTrans++;
+            lastWord = destWord;
+        }
+    }
+
+    void removeTransition(int originWord, int destWord){
+        _probabilities(originWord, destWord)--;
+        nTrans--;
+    }
+
+    boost::numeric::ublas::matrix<double> getTransitionProbabilities(){
+        boost::numeric::ublas::matrix<double> _resProbabilities(nStates,nStates);
+
+        for (unsigned i = 0; i < _probabilities.size1(); ++i){
+            for (unsigned j = 0; j < _probabilities.size2(); ++j){
+                _resProbabilities(i,j) = (double)_probabilities(i,j)/nTrans;
+            }
+        }
+
+        return _resProbabilities;
+    }
+
     ~Transitions(){
+    }
+
+    void printTransitionMatrix(){
+        std::cout << _probabilities << std::endl;
     }
 
 };

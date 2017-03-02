@@ -29,95 +29,76 @@
 #include <SpikesObserver.h>
 #include <SignalProcessor.h>
 #include <BitsObserver.h>
+#include <BinSignalGenerator.h>
 extern "C" {
 	#include "wordsBuffer.h"
 }
 
-class WordHistGenerator : public BitsObserver
+class WordHistGenerator : public WordsObserver
 {
 private:
-    const int BIT_ERROR=-1;
-    const int BIT_END=-2;
+    //const int BIT_ERROR=-1;
+    //const int BIT_END=-2;
 
     int _wordLength;
-    int _binTime;
     int _maxWords;
+    int _numWords;
     float _entropy=-1;
     float _bias=-1;
     
-    WordsBuffer _wordsbuf;
-    
-    std::vector< std::pair<int,int> > _wordsPosVector;
+    std::vector<int> _wordsBuf;
+    std::vector<int> _hist;
     
     void calculateEntropy(){
         _entropy = 0;
-        for (std::vector< std::pair<int,int> >::iterator it = _wordsPosVector.begin(); (it != _wordsPosVector.end()); ++it){
-			float prob = static_cast< float >(it->first)/_wordsbuf.numWords;
-            if ((prob > 0.0000001)||(prob < -0.0000001)){
+        for (int nOccurWord : _hist){
+			if (nOccurWord!=0){
+                float prob = float(nOccurWord)/_numWords;
                 _entropy -= prob * (log(prob)/log(2));
-                //cout << "----word#: " << *it << " Entropy: " << entropy << " Prob: " << prob << " log2(p): "<< (log(prob)/log(2)) << endl;
             }
         }
     }
 
     void calculateBias(){
-        _bias = (-_wordsbuf.maxWords+1)/(2*_wordsbuf.numWords*0.69314718055994530941723212145818 /*ln 2*/ );
+        _bias = (-_maxWords+1)/(2*_numWords*0.69314718055994530941723212145818 /*ln 2*/ );
     }
 
 public:
 
-    WordHistGenerator(int wordLength, std::shared_ptr<SpikesObserver> mod) : BitsObserver (mod){
-        _binTime = mod->getBinTime();
+    WordHistGenerator(int wordLength, std::shared_ptr<BitsObserver> mod) : WordsObserver (mod){
         _maxWords=(int)pow(2,wordLength);
-
-        _wordLength=wordLength;
-        wbInit(&_wordsbuf, wordLength, _maxWords);        
+        _wordLength=wordLength;      
     }
     
     virtual ~WordHistGenerator(){
         
     }
     
-    void update(int bit){
-        if (bit==BIT_END){
+    void update(int word){
+        if (word==BinSignalGenerator::SIGNAL_END){
             createHist();
             //calculateEntropy();
             //calculateBias();
             return;
         }
-        
-        if (bit==BIT_ERROR){
-            //wbRestartBitBuff(&_wordsbuf);
-            return;
-        }
-        
-        wbBitInsert(&_wordsbuf,bit);
-        wbStoreWord(&_wordsbuf);
+        _wordsBuf.push_back(word);
+        _numWords++;
     }
     
-    void createHist(){  
-        int hist[_maxWords];
-        wbCreateHistogram(&_wordsbuf, hist);
-        std::vector<int> wordsVec(hist, hist+_maxWords);
-        
-        int pos = 0; 
-        for (std::vector<int>::iterator it = wordsVec.begin(); (it != wordsVec.end()); ++it){
-            _wordsPosVector.push_back(std::pair<int,int>(*it, pos++));
+    void createHist(){
+        std::vector<int> v(_maxWords,0);
+        _hist = std::move(v);
+        for(auto word : _wordsBuf){
+            _hist[word]++;
         }
-        
-        std::sort(_wordsPosVector.begin(), _wordsPosVector.end(), std::greater< std::pair<int,int> > ());
     }
     
-    std::vector< std::pair<int,int> > getHist(){
-        return _wordsPosVector;
+    std::vector<int> getHist(){
+        return _hist;
     }
     
     int getWordLength(){
         return _wordLength;
-    }
-    
-    int getBinTime(){
-        return _binTime;
     }
     
     int getMaxWords(){

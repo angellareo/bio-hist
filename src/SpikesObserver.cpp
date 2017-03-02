@@ -29,10 +29,6 @@ SpikesObserver::SpikesObserver(shared_ptr<SignalProcessor> mod, double binTime) 
     _model->attach(this);
 }
 
-SpikesObserver::~SpikesObserver(){
-    
-}
-
 shared_ptr<SignalProcessor> SpikesObserver::getSubject() {
     return _model;
 }

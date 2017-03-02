@@ -35,9 +35,10 @@ private:
     
 public:
     SpikesObserver(std::shared_ptr<SignalProcessor> mod, double binTime);
-    virtual ~SpikesObserver();
+    virtual ~SpikesObserver(){}
     virtual void update(double time) = 0;
     void attach(BitsObserver *obs);
+
     double getBinTime(){
         return _binTime;
     }
@@ -45,6 +46,7 @@ public:
 protected:
     std::shared_ptr<SignalProcessor> getSubject();
     void notify(int bit);
+
     double _binTime;
 };
 

@@ -33,6 +33,8 @@
 #define FALSE 0
 #define TRUE 1
 
+#include <cmath>
+
 #include "HDF5HistWriter.h"
 #include "ProblemInfo.h"
 #include "ProblemConfig.h"

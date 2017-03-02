@@ -40,6 +40,7 @@ void ErrorFilter::update(double time){
     
     if (floor(time/_binTime) == _lastBitNum){
         _errors++;
+        //cout << "err" << endl;
         if (_lastBit != BIT_ERROR) _bitErrors++;
         _lastBit = BIT_ERROR;
     }

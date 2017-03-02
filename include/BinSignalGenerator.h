@@ -1,4 +1,4 @@
-//      BinWordsSignalGenerator.h
+//      BinSignalGenerator.h
 //      
 //      Copyright 2015 Ángel Lareo <angel.lareo@gmail.com>
 //      
@@ -17,40 +17,45 @@
 //      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //      MA 02110-1301, USA.
 
-#ifndef __BIN_WORDS_SIGNAL_GENERATOR_H__
-#define __BIN_WORDS_SIGNAL_GENERATOR_H__
+#ifndef __BIN_SIGNAL_GENERATOR_H__
+#define __BIN_SIGNAL_GENERATOR_H__
 
-    #include <iostream>
+#include <iostream>
 #include <cmath>
 #include <vector>
+#include <string>
 #include <utility>
 #include <algorithm>
+#include <memory>
 
 #include <SpikesObserver.h>
 #include <SignalProcessor.h>
 #include <BitsObserver.h>
+#include <Transitions.h>
 extern "C" {
 	#include "wordsBuffer.h"
 }
 
-class BinWordsSignalGenerator : public BitsObserver
+class BinSignalGenerator : public BitsObserver
 {
 private:
-    const int BIT_ERROR=-1;
-    const int BIT_END=-2;
-
     int _numBits;
     int _wordLength;
     int _binTime;
     int _maxWords;
     float _entropy;
-    
+
     WordsBuffer _wordsbuf;
     
-    std::vector<int> binWordsSignal;
+    std::vector<int> binSignal;
 
 public:
-    BinWordsSignalGenerator(int wordLength, std::shared_ptr<SpikesObserver> mod) : BitsObserver (mod){
+    static const int BIT_ERROR=-1;
+    static const int BIT_END=-2;
+    static const int WORD_RESET=-1;
+    static const int SIGNAL_END=-2;
+
+    BinSignalGenerator(int wordLength, std::shared_ptr<SpikesObserver> mod) : BitsObserver (mod) {
         _binTime = mod->getBinTime();
         _maxWords=(int)pow(2,wordLength); 
         _numBits = 0;
@@ -59,27 +64,29 @@ public:
         wbInit(&_wordsbuf, wordLength, MAX_WORDS_BUFF);        
     }
     
-    virtual ~BinWordsSignalGenerator(){
+    virtual ~BinSignalGenerator(){
         
     }
     
     void update(int bit){
         if (bit==BIT_END){
+            notify(SIGNAL_END);
             return;
         }
         
         if (bit==BIT_ERROR){
             _numBits=0;
             wbRestartBitBuff(&_wordsbuf);
+            notify(WORD_RESET);
             return;
         }
-        
+
+        binSignal.push_back(bit);     
         wbBitInsert(&_wordsbuf,bit);
         _numBits ++;
-        if (_numBits == _wordLength){
+        if (_numBits >= _wordLength){
             wbStoreWord(&_wordsbuf);
-            binWordsSignal.push_back(wbBits2Int(&_wordsbuf));
-            _numBits = 0;
+            notify(_wordsbuf.words[_wordsbuf.numWords-1]);
         }
     }
     
@@ -95,9 +102,9 @@ public:
         return _maxWords;
     }
     
-    std::vector<int> getBinWordsSignal(){
-        return binWordsSignal;
+    std::vector<int> getBinSignal(){
+        return binSignal;
     }
 };
 
-#endif /* __BIN_WORDS_SIGNAL_GENERATOR_H__ */
+#endif /* __BIN_SIGNAL_GENERATOR_H__ */

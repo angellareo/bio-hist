@@ -1,6 +1,6 @@
-//      BitsObserver.h
+//      WordsObserver.h
 //      
-//      Copyright 2015 Ángel Lareo <angel.lareo@gmail.com>
+//      Copyright 2017 Ángel Lareo <angel.lareo@gmail.com>
 //      
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
@@ -17,34 +17,27 @@
 //      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //      MA 02110-1301, USA.
 
-#ifndef __BITS_OBSERVER_H__
-#define __BITS_OBSERVER_H__
+#ifndef __WORDS_OBSERVER_H__
+#define __WORDS_OBSERVER_H__
 
 #include <iostream>
 #include <memory>
 #include <cmath>
-#include <vector>
+#include <BitsObserver.h>
 
-
-
-class SpikesObserver;
-class WordsObserver;
-
-
-class BitsObserver
+class WordsObserver
 {
 private:
-    std::shared_ptr<SpikesObserver> _model;
-    std::vector<WordsObserver*> _views;
-
+    std::shared_ptr<BitsObserver> _model;
 public:
-    BitsObserver(std::shared_ptr<SpikesObserver> mod);
-    virtual ~BitsObserver(){}
+    WordsObserver(std::shared_ptr<BitsObserver> mod) {
+        _model = mod;
+        _model->attach(this);
+    }
+    virtual ~WordsObserver(){}
     virtual void update(int bit) = 0;
-    void attach(WordsObserver *obs);
 protected:
-    std::shared_ptr<SpikesObserver> getSubject();
-    void notify(int bit);
+    BitsObserver* getSubject();
 };
 
-#endif /* __BITS_OBSERVER_H__ */
+#endif /* __WORDS_OBSERVER_H__ */
