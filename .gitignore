@@ -3,3 +3,4 @@ bin/*
 files/*
 script_paper_CNS.sh
 h5_to_csv_CNS.sh
+lib/
