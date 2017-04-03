@@ -74,8 +74,21 @@ void wbCreateHistogram (WordsBuffer* wb, int* results){
  * @param[in]       bit     bit a introducir
 */
 int wbBitInsert(WordsBuffer* wb, char bit){  //Inserts bit on BitBuffer
+    int i;
+    
+    //printf("%d\n", bit);    
+
     *(wb->bb.insert)=bit;
     bbAdvancePtr(&(wb->bb), &(wb->bb.insert));
+
+    //Advance bit init
+    if (wb->overlap==-1)
+        bbAdvancePtr(&(wb->bb),&(wb->bb.init));
+    else{
+        for (i=0; i<=(wb->bb.wordLength - wb->overlap); ++i)
+            bbAdvancePtr(&(wb->bb),&(wb->bb.init));
+    }
+
     wb->bb.numBits++;
     return OK;
 }
@@ -141,14 +154,7 @@ int wbStoreWord (WordsBuffer *wb){
     }
     
     wordResult = wbBits2Int(wb);
-	
-    //Advance bit init
-    if (wb->overlap==-1)
-        bbAdvancePtr(&(wb->bb),&(wb->bb.init));
-    else{
-        for (i=0; i<=(wb->bb.wordLength - wb->overlap); ++i)
-            bbAdvancePtr(&(wb->bb),&(wb->bb.init));
-    }
+	//printf("%d\n", wordResult);
 
     //Insert word
     wbWordInsert(wb, wordResult);
@@ -165,6 +171,7 @@ int wbBits2Int(WordsBuffer *wb){
 	
 	auxPtr=wb->bb.init;
     for (i=0; i<wb->bb.wordLength; ++i){
+        //printf("%d",*auxPtr);
         if ((int)*auxPtr){
             switch (exp){
                 case 0: wordResult += 1; break;
@@ -175,6 +182,7 @@ int wbBits2Int(WordsBuffer *wb){
         exp--;
         bbAdvancePtr(&(wb->bb), &auxPtr);
     }
+    //printf(" IniPos: %d  LastInPos: %d\n", (wb->bb.init)-(wb->bb.bits));
     
     return wordResult;
 }

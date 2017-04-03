@@ -54,11 +54,11 @@ public:
         }
     }
 
-    void update(int word){ 
+    void update(int word){
         //std::cout << word << std::endl;
         if (word == WORD_RESET)
             lastWord=word;
-        else addTransition(word);
+        else if (word>=0) addTransition(word);
     }
 
     void addTransition(int destWord){

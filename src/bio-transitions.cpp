@@ -37,31 +37,67 @@
 
 using namespace std;
 
+static void show_usage(string name){
+    std::cerr << "Usage: " << name << " <option(s)> SOURCES" << endl
+              << "Options:\n"
+              << "\t-h,--help\t\tShow this message.\n"
+              << "\t-i,--input\t\tInput file.\n"
+              << "\t-o,--output\t\tOutput file\n" << endl;
+}
+
+
 int main(int argc, char* argv[]){
+    int c;
+    string configFilename, inputFilename, outputFilename;
 	vector< shared_ptr<ErrorFilter> > EFilters;
 	vector< shared_ptr<BinSignalGenerator> > HistGens;
     vector< shared_ptr<Transitions> > TransitionGens;
     vector<float> binTimes;
 	shared_ptr<ProblemConfig> info;
 	
-	if ((argc!=2)&&(argc!=4)){
-		cout << "Error: Number of arguments does not match definition." << endl;
-		return 0;
-	}
-	
 
-	ifstream test(argv[1]);
-	if (!test.good()){
-		cout << "Error: Bad config file" << endl;
-		return 0;
-	}
+    while ((c = getopt(argc,argv,"c:i:o:")) != -1) { //@todo: use long options
+        switch (c){
+            case 'h':
+                show_usage(argv[0]);
+                break;
+            case 'c':
+                configFilename += optarg;
+                break;
+            case 'i':
+                inputFilename += optarg;
+                break;
+            case 'o':
+                outputFilename += optarg;
+                break;
+        }
+    }
 
+    if (configFilename.empty()){
+        cerr << "Error: Required CONFIG file" << endl;
+        show_usage(argv[0]);
+    }
 
-    if (argc!=4){
-		info = make_shared<ProblemConfig> (ProblemConfig(argv[1]));
+    ifstream test(configFilename);
+    if (!test.good()){
+        cerr << "Error: Cannot find CONFIG file" << endl;
+        return 0;
+    }
+    test.close();
+    test.open(inputFilename);
+    if (!test.good()){
+        cerr << "Error: Cannot find INPUT file " << endl;
+        return 0;
+    }
+
+    //@todo: detect if outputFile exists
+    //@todo: if outputFile exists -> rename
+    
+    if (outputFilename.empty()){
+		info = make_shared<ProblemConfig> (ProblemConfig(configFilename));
 	}
 	else{
-		info = make_shared<ProblemConfig> (ProblemConfig(argv[1], argv[2], argv[3]));
+		info = make_shared<ProblemConfig> (ProblemConfig(configFilename, inputFilename, outputFilename));
 	}
 
     HDF5TransitionsWriter H5FileWriter(info->getOutputFileName(), info->getWordLengths(), info->getBinTimes());    

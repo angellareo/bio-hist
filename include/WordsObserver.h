@@ -29,6 +29,7 @@ class WordsObserver
 {
 private:
     std::shared_ptr<BitsObserver> _model;
+
 public:
     WordsObserver(std::shared_ptr<BitsObserver> mod) {
         _model = mod;

@@ -36,31 +36,66 @@
 
 using namespace std;
 
+static void show_usage(string name){
+    std::cerr << "Usage: " << name << " <option(s)> SOURCES" << endl
+              << "Options:\n"
+              << "\t-h,--help\t\tShow this message.\n"
+              << "\t-i,--input\t\tInput file.\n"
+              << "\t-o,--output\t\tOutput file\n" << endl;
+}
+
 int main(int argc, char* argv[]){
+    int c;
+    string configFilename, inputFilename, outputFilename;
 	vector< shared_ptr<ErrorFilter> > EFilters;
-	vector< shared_ptr<WordHistGenerator> > HistGens;
+	vector< shared_ptr<BinSignalGenerator> > BinSignalGens;
+    vector< shared_ptr<WordHistGenerator> > HistGens;
     vector<float> binTimes;
 	shared_ptr<ProblemConfig> info;
 	
-	if ((argc!=2)&&(argc!=4)){
-		cout << "Error: Number of arguments does not match definition." << endl;
-		return 0;
-	}
+    while ((c = getopt(argc,argv,"hc:i:o:")) != -1) { //@todo: use long options
+        switch (c){
+            case 'h':
+                show_usage(argv[0]);
+                break;
+            case 'c':
+                configFilename += optarg;
+                break;
+            case 'i':
+                inputFilename += optarg;
+                break;
+            case 'o':
+                outputFilename += optarg;
+                break;
+        }
+    }
 	
+    if (configFilename.empty()){
+        cerr << "Error: Required CONFIG file" << endl;
+        show_usage(argv[0]);
+    }
 
-	ifstream test(argv[1]);
-	if (!test.good()){
-		cout << "Error: Bad config file" << endl;
-		return 0;
-	}
+    ifstream test(configFilename);
+    if (!test.good()){
+        cerr << "Error: Cannot find CONFIG file" << endl;
+        return 0;
+    }
+    test.close();
+    test.open(inputFilename);
+    if (!test.good()){
+        cerr << "Error: Cannot find INPUT file" << endl;
+        return 0;
+    }
 
+    //@todo: detect if outputFile exists
+    //@todo: if outputFile exists -> rename
 
-    if (argc!=4){
-		info = make_shared<ProblemConfig> (ProblemConfig(argv[1]));
-	}
-	else{
-		info = make_shared<ProblemConfig> (ProblemConfig(argv[1], argv[2], argv[3]));
-	}
+    if (outputFilename.empty()){
+        info = make_shared<ProblemConfig> (ProblemConfig(configFilename));
+    }
+    else{
+        info = make_shared<ProblemConfig> (ProblemConfig(configFilename, inputFilename, outputFilename));
+    }
 
     HDF5HistWriter H5FileWriter(info->getOutputFileName(), info->getWordLengths(), info->getBinTimes());    
 
@@ -73,28 +108,30 @@ int main(int argc, char* argv[]){
         shared_ptr<ErrorFilter> errorFilter(new ErrorFilter(bT, info->getTotalTime(), sp));
         EFilters.push_back(errorFilter);
         for (int wL : info->getWordLengths()){
-            shared_ptr<WordHistGenerator> wordHistGen(new WordHistGenerator(wL,errorFilter));
+            shared_ptr<BinSignalGenerator> binSignalGen(new BinSignalGenerator(wL,errorFilter));
+            BinSignalGens.push_back(binSignalGen);
+            shared_ptr<WordHistGenerator> wordHistGen(new WordHistGenerator(binSignalGen));
             HistGens.push_back(wordHistGen);
         }
     }
-    
+
     sp->run();
     
 
     for (auto histGen : HistGens){
         auto hist = histGen->getHist();
         hsize_t histDims[2];
-        histDims[0]=histGen->getMaxWords(); histDims[1]=2;
+        histDims[0]=histGen->getSubject()->getMaxWords(); histDims[1]=2;
         
-        pair<float,int> par(histGen->getBinTime(),histGen->getWordLength());
+        pair<float,int> par(histGen->getSubject()->getBinTime(),histGen->getSubject()->getWordLength());
         
         H5FileWriter.writeHistData(hist, par, histDims);
-        H5FileWriter.writeEntropy(histGen->getEntropy()/histGen->getWordLength(), 
-                                        histGen->getBinTime(), histGen->getWordLength());
+        H5FileWriter.writeEntropy(histGen->getEntropy()/histGen->getSubject()->getWordLength(), 
+                                        histGen->getSubject()->getBinTime(), histGen->getSubject()->getWordLength());
 		//H5FileWriter.writeBias(histGen->getBias(),
-                                        //histGen->getBinTime(), histGen->getWordLength());
+                                        //histGen->getBinTime(), histGen->getSubject()->getWordLength());
         //H5FileWriter.writeCorrectedEntropy(histGen->getCorrectedEntropy(),
-                                        //histGen->getBinTime(), histGen->getWordLength());
+                                        //histGen->getBinTime(), histGen->getSubject()->getWordLength());
     }
     
     for (auto eFilter : EFilters){

@@ -43,15 +43,15 @@ private:
     int _numWords;
     float _entropy=-1;
     float _bias=-1;
-    
-    std::vector<int> _wordsBuf;
-    std::vector<int> _hist;
-    
+    bool _histCreated=0;
+    std::vector<int> _wordsBuf;    
+    std::vector< std::pair<int,int> > _wordsPosVector;
+
     void calculateEntropy(){
         _entropy = 0;
-        for (int nOccurWord : _hist){
-			if (nOccurWord!=0){
-                float prob = float(nOccurWord)/_numWords;
+        for (auto& nOccurWord : _wordsPosVector){
+			if (nOccurWord.first!=0){
+                float prob = float(nOccurWord.first)/_numWords;
                 _entropy -= prob * (log(prob)/log(2));
             }
         }
@@ -73,7 +73,6 @@ public:
     
     void update(int word){
         if (word==BinSignalGenerator::SIGNAL_END){
-            createHist();
             //calculateEntropy();
             //calculateBias();
             return;
@@ -82,16 +81,25 @@ public:
         _numWords++;
     }
     
-    void createHist(){
-        std::vector<int> v(getSubject()->getMaxWords(),0);
-        _hist = std::move(v);
+    void createHist(){             
+        std::vector<int> wordsVec(getSubject()->getMaxWords(),0);
         for(auto word : _wordsBuf){
-            _hist[word]++;
+            wordsVec[word]++;
         }
+
+        int pos = 0; 
+        for (std::vector<int>::iterator it = wordsVec.begin(); (it != wordsVec.end()); ++it){
+            _wordsPosVector.push_back(std::pair<int,int>(*it, pos++));
+        }
+        std::sort(_wordsPosVector.begin(), _wordsPosVector.end(), std::greater< std::pair<int,int> > ());
     }
     
-    std::vector<int> getHist(){
-        return _hist;
+    std::vector< std::pair<int,int> > getHist(){
+        if (!_histCreated){
+            createHist();
+            _histCreated = 1;
+        }
+        return _wordsPosVector;
     }
     
     float getEntropy(){

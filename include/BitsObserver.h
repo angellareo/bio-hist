@@ -42,6 +42,7 @@ public:
     virtual ~BitsObserver(){}
     virtual void update(int bit) = 0;
     void attach(WordsObserver *obs);
+
     int getWordLength(){
         return _wordLength;
     }

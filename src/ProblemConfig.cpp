@@ -22,13 +22,23 @@
 using namespace std;
 
 ProblemConfig::ProblemConfig(string fileName){
-    _config = YAML::LoadFile(fileName);
+    try {
+        _config = YAML::LoadFile(fileName);
+    }
+    catch (YAML::Exception& exception){
+        cerr << "Bad YAML file: " << fileName << endl;    
+    }    
 }
 
 ProblemConfig::ProblemConfig(string fileName, string inputFile, string outputFile):
 															_inputFile(inputFile),
 															_outputFile(outputFile){
-    _config = YAML::LoadFile(fileName);
+    try {
+        _config = YAML::LoadFile(fileName);
+    }
+    catch (YAML::Exception& exception){
+        cerr << "Bad YAML file: " << fileName << endl;    
+    }    
 }
 
 ProblemConfig::~ProblemConfig(){

@@ -20,8 +20,8 @@ else ()
     message(FATAL_ERROR "Your C++ compiler does not support C++11.")
 endif ()
 
-set ( LIBRARY_OUTPUT_PATH  ${CMAKE_BINARY_DIR}/lib)
-set ( EXECUTABLE_OUTPUT_PATH  ${CMAKE_BINARY_DIR}/bin)
+set ( LIBRARY_OUTPUT_PATH  ${CMAKE_SOURCE_DIR}/lib)
+set ( EXECUTABLE_OUTPUT_PATH  ${CMAKE_SOURCE_DIR}/bin)
 
 find_package(Boost 1.53.0 REQUIRED)
 message (${Boost_INCLUDE_DIR})

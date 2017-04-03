@@ -2,17 +2,16 @@
 ---
 
 #I/O files
-
-inputFile: /media/alareo/TOSHIBA EXT/GNB-Doctorado/RawData/01-Jul-2016/16h04m16s-01-Jul-2016.dat
-outputFile: files/ejemploTransition.h5
+#inputFile: files/parts/xac
+#outputFile: files/ejemploTransition.h5
 
 #Spike Detector: Upcross, Downcross or FormSpike
 spikeDetector : Upcross
 
 #Problem execution data
 volColumn: 4
-totalTime: 1470
-volThreshold: 6
+totalTime: 200
+volThreshold: 0.6
 wordLengths: [4]
 binTimes: [90.0]
 #wordLengths: [2,3,4,5]
