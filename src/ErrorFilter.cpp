@@ -24,7 +24,7 @@
 
 using namespace std;
 
-ErrorFilter::ErrorFilter(double binTime, double endTime, shared_ptr<SignalProcessor> mod) : SpikesObserver(mod, binTime){
+ErrorFilter::ErrorFilter(double binTime, double endTime, SignalProcessor& mod) : SpikesObserver(mod, binTime){
     _endTime = endTime;
 }
 

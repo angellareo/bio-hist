@@ -40,7 +40,7 @@ private:
     int _bitErrors=0;
     
 public:
-    ErrorFilter(double binTime, double endTime, std::shared_ptr<SignalProcessor> mod);
+    ErrorFilter(double binTime, double endTime, SignalProcessor& mod);
     virtual ~ErrorFilter(){}
 
     void update(double time);

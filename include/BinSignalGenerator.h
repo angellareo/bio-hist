@@ -87,21 +87,6 @@ public:
     std::vector<int> getBinSignal(){
         return binSignal;
     }
-
-    /*std::vector<std::pair<int,int>> createHist(){
-        int hist[_maxWords];
-        wbCreateHistogram(&_wordsbuf, hist);
-        std::vector<int> wordsVec(hist, hist+_maxWords);
-        std::vector<std::pair<int,int>> wordsPosVector;
-
-        int pos = 0; 
-        for (std::vector<int>::iterator it = wordsVec.begin(); (it != wordsVec.end()); ++it){
-            wordsPosVector.push_back(std::pair<int,int>(*it, pos++));
-        }
-        
-        std::sort(wordsPosVector.begin(), wordsPosVector.end(), std::greater< std::pair<int,int> > ());
-        return wordsPosVector;
-    }*/
 };
 
 #endif /* __BIN_SIGNAL_GENERATOR_H__ */

@@ -29,22 +29,22 @@ class BitsObserver;
 
 class SpikesObserver {
 private:
-    std::shared_ptr<SignalProcessor> _model;
-    std::vector<BitsObserver*> _views;
+    SignalProcessor& _model;
+    std::vector< std::shared_ptr<BitsObserver> > _views;
 
     
 public:
-    SpikesObserver(std::shared_ptr<SignalProcessor> mod, double binTime);
+    SpikesObserver(SignalProcessor& mod, double binTime);
     virtual ~SpikesObserver(){}
     virtual void update(double time) = 0;
-    void attach(BitsObserver *obs);
+    void attach(std::shared_ptr<BitsObserver> obs);
 
     double getBinTime(){
         return _binTime;
     }
     
 protected:
-    std::shared_ptr<SignalProcessor> getSubject();
+    SignalProcessor& getSubject();
     void notify(int bit);
 
     double _binTime;

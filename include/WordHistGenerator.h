@@ -43,7 +43,7 @@ private:
     int _numWords;
     float _entropy=-1;
     float _bias=-1;
-    bool _histCreated=0;
+    bool _histCreated=false;
     std::vector<int> _wordsBuf;    
     std::vector< std::pair<int,int> > _wordsPosVector;
 
@@ -64,7 +64,11 @@ private:
 public:
 
     WordHistGenerator(std::shared_ptr<BitsObserver> mod) : WordsObserver (mod){
-          
+        int n = getSubject()->getMaxWords(); 
+        int pos=0;
+        for (int i=0; i<n; i++){
+            _wordsPosVector.push_back(std::pair<int,int>(0, pos++));
+        }
     }
     
     virtual ~WordHistGenerator(){
@@ -78,26 +82,30 @@ public:
             return;
         }
         _wordsBuf.push_back(word);
+        std::get<0>(_wordsPosVector[word])++;
         _numWords++;
     }
     
-    void createHist(){             
-        std::vector<int> wordsVec(getSubject()->getMaxWords(),0);
-        for(auto word : _wordsBuf){
-            wordsVec[word]++;
-        }
+    void createHist(){            
+        
+        //std::vector<int> wdata(n,0);
+        //for(int word : _wordsBuf){
+        //    wdata[word]++;
+        //}
 
-        int pos = 0; 
-        for (std::vector<int>::iterator it = wordsVec.begin(); (it != wordsVec.end()); ++it){
-            _wordsPosVector.push_back(std::pair<int,int>(*it, pos++));
-        }
-        std::sort(_wordsPosVector.begin(), _wordsPosVector.end(), std::greater< std::pair<int,int> > ());
+        //int pos = 0; 
+        //for (std::vector<int>::iterator it = wdata.begin(); (it != wdata.end()); ++it){
+        //    std::cout << *it << " ";
+        //    _wordsPosVector.push_back(std::pair<int,int>(*it, pos++));
+        //}
+        //std::cout << std::endl;
+        //std::sort(_wordsPosVector.begin(), _wordsPosVector.end(), std::greater< std::pair<int,int> > ());
     }
     
     std::vector< std::pair<int,int> > getHist(){
         if (!_histCreated){
-            createHist();
-            _histCreated = 1;
+            std::sort(_wordsPosVector.begin(), _wordsPosVector.end(), std::greater< std::pair<int,int> > ());
+            _histCreated = true;
         }
         return _wordsPosVector;
     }

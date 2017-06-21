@@ -25,7 +25,7 @@ using namespace std;
 
 BitsObserver::BitsObserver(int wordLength, shared_ptr<SpikesObserver> mod) {
     _model = mod;
-    _model->attach(this);
+    //_model->attach(this);
 
     _binTime = mod->getBinTime();
     _wordLength= wordLength;
@@ -41,6 +41,6 @@ void BitsObserver::notify(int bit) {
     v->update(bit);
 }
 
-void BitsObserver::attach(WordsObserver *obs) {
+void BitsObserver::attach(shared_ptr <WordsObserver> obs) {
     _views.push_back(obs);
 }

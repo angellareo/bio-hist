@@ -35,13 +35,13 @@ class BitsObserver
 {
 private:
     std::shared_ptr<SpikesObserver> _model;
-    std::vector<WordsObserver*> _views;
+    std::vector< std::shared_ptr<WordsObserver> > _views;
 
 public:
     BitsObserver(int wordLength, std::shared_ptr<SpikesObserver> mod);
     virtual ~BitsObserver(){}
     virtual void update(int bit) = 0;
-    void attach(WordsObserver *obs);
+    void attach(std::shared_ptr<WordsObserver> obs);
 
     int getWordLength(){
         return _wordLength;

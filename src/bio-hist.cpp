@@ -102,21 +102,23 @@ int main(int argc, char* argv[]){
     H5FileWriter.writeProblemInfo(info);
     
 
-    shared_ptr<SignalProcessor> sp = shared_ptr<SignalProcessor>(new SignalProcessor(info));
+    SignalProcessor sp(info);
     
     for (double bT : info->getBinTimes()){
         shared_ptr<ErrorFilter> errorFilter(new ErrorFilter(bT, info->getTotalTime(), sp));
-        EFilters.push_back(errorFilter);
+        sp.attach(errorFilter);
+        //EFilters.push_back(errorFilter);
         for (int wL : info->getWordLengths()){
             shared_ptr<BinSignalGenerator> binSignalGen(new BinSignalGenerator(wL,errorFilter));
-            BinSignalGens.push_back(binSignalGen);
+            errorFilter->attach(binSignalGen);
+            //BinSignalGens.push_back(binSignalGen);
             shared_ptr<WordHistGenerator> wordHistGen(new WordHistGenerator(binSignalGen));
+            binSignalGen->attach(wordHistGen);
             HistGens.push_back(wordHistGen);
         }
     }
 
-    sp->run();
-    
+    sp.run();
 
     for (auto histGen : HistGens){
         auto hist = histGen->getHist();

@@ -33,7 +33,7 @@ private:
 public:
     WordsObserver(std::shared_ptr<BitsObserver> mod) {
         _model = mod;
-        _model->attach(this);
+        //_model->attach(this);
     }
     virtual ~WordsObserver(){}
     virtual void update(int bit) = 0;

@@ -23,13 +23,12 @@
 
 using namespace std;
 
-SpikesObserver::SpikesObserver(shared_ptr<SignalProcessor> mod, double binTime) {
-    _model = mod;
+SpikesObserver::SpikesObserver(SignalProcessor& mod, double binTime): _model(mod){
     _binTime = binTime;
-    _model->attach(this);
+    //_model.attach(this);
 }
 
-shared_ptr<SignalProcessor> SpikesObserver::getSubject() {
+SignalProcessor& SpikesObserver::getSubject() {
     return _model;
 }
 
@@ -38,6 +37,6 @@ void SpikesObserver::notify(int bit) {
     v->update(bit);
 }
 
-void SpikesObserver::attach(BitsObserver *obs) {
+void SpikesObserver::attach(shared_ptr<BitsObserver> obs) {
     _views.push_back(obs);
 }

@@ -33,7 +33,7 @@ class SignalProcessor
 {
 private:
     const int END_HIST_TIME = -2;
-    std::vector<SpikesObserver*> _views;
+    std::vector< std::shared_ptr<SpikesObserver> > _views;
 	std::ifstream _inputFile;
 	double _initTime;
     double _endTime;
@@ -44,7 +44,7 @@ private:
 public:
     SignalProcessor(std::shared_ptr<ProblemConfig> info);
     virtual ~SignalProcessor();
-    void attach(SpikesObserver *obs) {
+    void attach(std::shared_ptr<SpikesObserver> obs) {
         _views.push_back(obs);
     }
     void notify(double time);

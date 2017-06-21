@@ -105,7 +105,7 @@ int main(int argc, char* argv[]){
     H5FileWriter.writeProblemInfo(info);
     
 
-    shared_ptr<SignalProcessor> sp = shared_ptr<SignalProcessor>(new SignalProcessor(info));
+    SignalProcessor sp(info);
     
     for (double bT : info->getBinTimes()){
         shared_ptr<ErrorFilter> errorFilter(new ErrorFilter(bT, info->getTotalTime(), sp));
@@ -118,7 +118,7 @@ int main(int argc, char* argv[]){
         }
     }
     
-    sp->run();
+    sp.run();
 
     for (auto transGen : TransitionGens){
         auto tran = transGen->getTransitionProbabilities();
