@@ -39,6 +39,7 @@ using namespace std;
 static void show_usage(string name){
     std::cerr << "Usage: " << name << " <option(s)> SOURCES" << endl
               << "Options:\n"
+              << "\t-c,--config\t\tConfig file.\n"
               << "\t-h,--help\t\tShow this message.\n"
               << "\t-i,--input\t\tInput file.\n"
               << "\t-o,--output\t\tOutput file\n" << endl;
@@ -107,11 +108,11 @@ int main(int argc, char* argv[]){
     for (double bT : info->getBinTimes()){
         shared_ptr<ErrorFilter> errorFilter(new ErrorFilter(bT, info->getTotalTime(), sp));
         sp.attach(errorFilter);
-        //EFilters.push_back(errorFilter);
+        EFilters.push_back(errorFilter);
         for (int wL : info->getWordLengths()){
             shared_ptr<BinSignalGenerator> binSignalGen(new BinSignalGenerator(wL,errorFilter));
             errorFilter->attach(binSignalGen);
-            //BinSignalGens.push_back(binSignalGen);
+            BinSignalGens.push_back(binSignalGen);
             shared_ptr<WordHistGenerator> wordHistGen(new WordHistGenerator(binSignalGen));
             binSignalGen->attach(wordHistGen);
             HistGens.push_back(wordHistGen);

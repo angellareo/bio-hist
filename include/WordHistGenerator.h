@@ -81,6 +81,9 @@ public:
             //calculateBias();
             return;
         }
+        if (word==BinSignalGenerator::WORD_RESET){
+            return;
+        }
         _wordsBuf.push_back(word);
         std::get<0>(_wordsPosVector[word])++;
         _numWords++;

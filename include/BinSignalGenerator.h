@@ -71,7 +71,6 @@ public:
         if (bit==BIT_ERROR){
             _numBits=0;
             wbRestartBitBuff(&_wordsbuf);
-            notify(WORD_RESET);
             return;
         }
 
