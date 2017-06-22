@@ -29,7 +29,7 @@
 #include <memory>
 #include <fstream>
 
-#include "pezHist.h"
+#include "pezHist.h" //@todo:Rename to bio-hist.h
 #include "SignalProcessor.h"
 #include "ErrorFilter.h"
 #include "WordHistGenerator.h"
@@ -122,15 +122,17 @@ int main(int argc, char* argv[]){
     sp.run();
 
     for (auto histGen : HistGens){
+        int nBits = histGen->getSubject()->getWordLength();
+        float binTime = histGen->getSubject()->getBinTime();
         auto hist = histGen->getHist();
+
         hsize_t histDims[2];
         histDims[0]=histGen->getSubject()->getMaxWords(); histDims[1]=2;
         
-        pair<float,int> par(histGen->getSubject()->getBinTime(),histGen->getSubject()->getWordLength());
+        pair<float,int> par(binTime,nBits);
         
         H5FileWriter.writeHistData(hist, par, histDims);
-        H5FileWriter.writeEntropy(histGen->getEntropy()/histGen->getSubject()->getWordLength(), 
-                                        histGen->getSubject()->getBinTime(), histGen->getSubject()->getWordLength());
+        H5FileWriter.writeEntropy(histGen->getEntropy()/nBits, binTime, nBits);
 		//H5FileWriter.writeBias(histGen->getBias(),
                                         //histGen->getBinTime(), histGen->getSubject()->getWordLength());
         //H5FileWriter.writeCorrectedEntropy(histGen->getCorrectedEntropy(),

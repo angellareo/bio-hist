@@ -40,14 +40,17 @@ private:
     //const int BIT_ERROR=-1;
     //const int BIT_END=-2;
 
-    int _numWords;
+    int _numWords=0;
     float _entropy=-1;
     float _bias=-1;
     bool _histCreated=false;
+    bool _entropyCalc=false;
     std::vector<int> _wordsBuf;    
     std::vector< std::pair<int,int> > _wordsPosVector;
 
     void calculateEntropy(){
+        if (!_histCreated) createHist();
+        
         _entropy = 0;
         for (auto& nOccurWord : _wordsPosVector){
 			if (nOccurWord.first!=0){
@@ -114,8 +117,9 @@ public:
     }
     
     float getEntropy(){
-        if (_entropy==-1){
+        if (!_entropyCalc){
             calculateEntropy();
+            _entropyCalc=true;
         }
         return _entropy;
     }
