@@ -10,7 +10,7 @@ spikeDetector : Upcross
 
 #Problem execution data
 volColumn: 4
-totalTime: 3600
+totalTime: 1800
 volThreshold: 0.6
 wordLengths: [2,3,4,5]
 binTimes: [60.0,70.0,80.0,90.0,100.0,110.0,120.0,130.0,140.0,150.0,160.0,170.0,180.0,190.0,200.0,210.0]
