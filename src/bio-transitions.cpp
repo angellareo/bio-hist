@@ -33,6 +33,10 @@
 #include "ErrorFilter.h"
 #include "WordHistGenerator.h"
 #include "Transitions.h"
+
+#include "HDF5HistWriter.h"
+#include "HDF5TransitionsWriter.h"
+
 #include <boost/numeric/ublas/io.hpp> 
 
 using namespace std;

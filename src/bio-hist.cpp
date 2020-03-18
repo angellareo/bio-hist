@@ -29,6 +29,9 @@
 #include <memory>
 #include <fstream>
 
+#include "HDF5HistWriter.h"
+#include "HDF5TransitionsWriter.h"
+
 #include "pezHist.h" //@todo:Rename to bio-hist.h
 #include "SignalProcessor.h"
 #include "ErrorFilter.h"
