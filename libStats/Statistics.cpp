@@ -64,7 +64,7 @@ void Statistics::dump()
 	}
 	catch(Exception const &e)
 	{
-		e.printError();
+		e.printErrorStack();
 	}
 }
 
@@ -113,7 +113,7 @@ MatrixStreamer::SharedPtr Statistics::get_matrix_streamer(hsize_t dims[2], std::
 	{
 		cerr << "Problem creating dataset " << name << " within data file " << _filename << '\n';
 
-		e.printError();
+		e.printErrorStack();
 
 		throw;
 	}
