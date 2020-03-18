@@ -41,6 +41,7 @@ static void show_usage(string name){
     std::cerr << "Usage: " << name << " <option(s)> SOURCES" << endl
               << "Options:\n"
               << "\t-h,--help\t\tShow this message.\n"
+              << "\t-c,--config\t\tConfig file.\n"
               << "\t-i,--input\t\tInput file.\n"
               << "\t-o,--output\t\tOutput file\n" << endl;
 }
@@ -110,10 +111,14 @@ int main(int argc, char* argv[]){
     for (double bT : info->getBinTimes()){
         shared_ptr<ErrorFilter> errorFilter(new ErrorFilter(bT, info->getTotalTime(), sp));
         EFilters.push_back(errorFilter);
+        sp.attach(errorFilter);
         for (int wL : info->getWordLengths()){
             shared_ptr<BinSignalGenerator> binSignalGen(new BinSignalGenerator(wL,errorFilter));
+            errorFilter->attach(binSignalGen);
             HistGens.push_back(binSignalGen);
+            
             shared_ptr<Transitions> transitionGen(new Transitions(binSignalGen, binSignalGen->getMaxWords()));
+            binSignalGen->attach(transitionGen);
             TransitionGens.push_back(transitionGen);
         }
     }
@@ -121,7 +126,8 @@ int main(int argc, char* argv[]){
     sp.run();
 
     for (auto transGen : TransitionGens){
-        auto tran = transGen->getTransitionProbabilities();
+        //auto tran = transGen->getTransitionProbabilities();
+        //cout << tran(0,0) << endl;
         //transGen->printTransitionMatrix();
         
         hsize_t transitionMatrixDims[2];
@@ -129,7 +135,9 @@ int main(int argc, char* argv[]){
         
         pair<float,int> par(transGen->getSubject()->getBinTime(),transGen->getSubject()->getWordLength());
         
-        H5FileWriter.writeTransitions(std::move(transGen->getTransitionProbabilities()), par, transitionMatrixDims);
+        
+
+        H5FileWriter.writeTransitions(move(transGen->getTransitionProbabilities()), par, transitionMatrixDims);
         //H5FileWriter.writeEntropy(histGen->getEntropy()/histGen->getWordLength(), 
                                         //histGen->getBinTime(), histGen->getWordLength());
 		//H5FileWriter.writeBias(histGen->getBias(),

@@ -25,7 +25,6 @@ using namespace std;
 
 SpikesObserver::SpikesObserver(SignalProcessor& mod, double binTime): _model(mod){
     _binTime = binTime;
-    //_model.attach(this);
 }
 
 SignalProcessor& SpikesObserver::getSubject() {
