@@ -1,7 +1,11 @@
 *~
-bin/*
-files/*
-script_paper_CNS.sh
-h5_to_csv_CNS.sh
+bin/
+files/
+artifacts/
 lib/
+*.swp
+*.swo
+tags
+compile_commands.json
 config.yaml
+

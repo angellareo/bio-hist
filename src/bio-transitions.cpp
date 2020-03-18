@@ -28,11 +28,14 @@
 #include <iomanip>
 #include <memory>
 
-#include "pezHist.h"
 #include "SignalProcessor.h"
 #include "ErrorFilter.h"
 #include "WordHistGenerator.h"
 #include "Transitions.h"
+
+#include "HDF5HistWriter.h"
+#include "HDF5TransitionsWriter.h"
+
 #include <boost/numeric/ublas/io.hpp> 
 
 using namespace std;
@@ -55,7 +58,6 @@ int main(int argc, char* argv[]){
     vector< shared_ptr<Transitions> > TransitionGens;
     vector<float> binTimes;
 	shared_ptr<ProblemConfig> info;
-	
 
     while ((c = getopt(argc,argv,"c:i:o:")) != -1) { //@todo: use long options
         switch (c){
