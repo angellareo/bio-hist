@@ -142,7 +142,7 @@ int main(int argc, char* argv[]){
     }
     
     for (auto eFilter : EFilters){
-        H5FileWriter.writeErrors(eFilter->getErrors(), eFilter->getBitErrors(), eFilter->getBinTime());
+        H5FileWriter.writeErrors(eFilter->getSpkErrors(), eFilter->getBitErrors(), eFilter->getBinTime());
     }
   
     return 0;

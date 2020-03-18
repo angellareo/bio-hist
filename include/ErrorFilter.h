@@ -36,7 +36,7 @@ private:
     long int _lastBitNum = -1;
     int _lastBit = -1;
     
-    int _errors=0;
+    int _spkErrors=0;
     int _bitErrors=0;
     
 public:
@@ -45,8 +45,8 @@ public:
 
     void update(double time);
     
-    int getErrors(){
-        return _errors;
+    int getSpkErrors(){
+        return _spkErrors;
     }
     
     int getBitErrors(){
