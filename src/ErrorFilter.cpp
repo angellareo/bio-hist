@@ -40,16 +40,16 @@ void ErrorFilter::update(double time){
     
     if (floor(time/_binTime) == _lastBitNum){
         _errors++;
-        //cout << "err" << endl;
+        
         if (_lastBit != BIT_ERROR) _bitErrors++;
         _lastBit = BIT_ERROR;
     }
     
     if (floor(time/_binTime) > _lastBitNum){
-        notify(_lastBit);
+        notify(_lastBit); // notify 1 to BitDetector(s)
 
         for (int i = 1; i < (floor(time/_binTime) - _lastBitNum); i++){
-            notify(0);
+            notify(0); // notify (several) 0s to BitDetector(s)
         }
         
         _lastBit = 1;
