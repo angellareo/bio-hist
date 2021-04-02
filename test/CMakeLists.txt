@@ -1,15 +1,19 @@
 set(SOURCES
   "hello_test.cpp"
+  "../src/SignalProcessor.cpp"
+  "../src/ProblemConfig.cpp"
+  "../src/SpikesObserver.cpp"
 )
+set (INCLUDE_DIR ../include )
 
 find_package(Sanitizers)
 
-#set(LIB_NAME ${PROJECT_NAME}_lib)
 set(TEST_NAME tests)
 
 add_executable(${TEST_NAME} test_main.cpp ${SOURCES})
 add_sanitizers(${TEST_NAME})
-target_link_libraries(${TEST_NAME} PRIVATE ${LIB_NAME} catch)
+target_include_directories(${TEST_NAME} PUBLIC ${INCLUDE_DIR} ${YAMLCPP_INCLUDE_DIR})
+target_link_libraries(${TEST_NAME} PRIVATE ${YAMLCPP_LIBRARY} catch)
 target_compile_definitions(${TEST_NAME} PRIVATE CATCH_CONFIG_CONSOLE_WIDTH=60)
 
 if (MSVC)

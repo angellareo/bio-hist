@@ -21,7 +21,6 @@ else()
   target_compile_options(${PROJECT_NAME}-hist PRIVATE "-Werror")
   target_compile_options(${PROJECT_NAME}-hist PRIVATE "-pedantic")
 endif()
-
 #---------------------------------
 
 #-- BIO-BIN-TRANSITIONS ----------

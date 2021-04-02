@@ -108,14 +108,14 @@ int main(int argc, char* argv[]){
     SignalProcessor sp(info);
     
     for (double bT : info->getBinTimes()){
-        shared_ptr<ErrorFilter> errorFilter(new ErrorFilter(bT, info->getTotalTime(), sp));
+        shared_ptr<ErrorFilter> errorFilter = make_shared<ErrorFilter>(bT, info->getTotalTime(), sp);
         sp.attach(errorFilter);
         EFilters.push_back(errorFilter);
         for (int wL : info->getWordLengths()){
-            shared_ptr<BinSignalGenerator> binSignalGen(new BinSignalGenerator(wL,errorFilter));
+            shared_ptr<BinSignalGenerator> binSignalGen = make_shared<BinSignalGenerator>(wL,errorFilter);
             errorFilter->attach(binSignalGen);
             BinSignalGens.push_back(binSignalGen);
-            shared_ptr<WordHistGenerator> wordHistGen(new WordHistGenerator(binSignalGen));
+            shared_ptr<WordHistGenerator> wordHistGen = make_shared<WordHistGenerator>(binSignalGen);
             binSignalGen->attach(wordHistGen);
             HistGens.push_back(wordHistGen);
         }

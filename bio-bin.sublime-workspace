@@ -1,0 +1,414 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"get",
+				"getSpkErrors"
+			],
+			[
+				"i",
+				"if\tIf Condition"
+			],
+			[
+				"in",
+				"int"
+			],
+			[
+				"Sig",
+				"SignalProcessor"
+			],
+			[
+				"Signar",
+				"SignalProcessorTester"
+			],
+			[
+				"re",
+				"resultsDir"
+			],
+			[
+				"sec",
+				"sectorID"
+			],
+			[
+				"XLS",
+				"XLSLoader"
+			],
+			[
+				"false",
+				"FALSE"
+			],
+			[
+				"true",
+				"True"
+			],
+			[
+				"load",
+				"loadDependentSector"
+			],
+			[
+				"is",
+				"isDependentSector"
+			],
+			[
+				"table",
+				"table"
+			],
+			[
+				"MAX",
+				"MAX_IPIS"
+			],
+			[
+				"_tar",
+				"_targetSPI"
+			],
+			[
+				"dS",
+				"dStimIntensity"
+			],
+			[
+				"better",
+				"betterPat"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"sni",
+				"Snippet: If Condition"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"mark",
+				"Set Syntax: Markdown"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/home/alareo/workspace/bio-hist",
+		"/home/alareo/workspace/bio-hist/src",
+		"/home/alareo/workspace/bio-hist/test"
+	],
+	"file_history":
+	[
+		"/home/alareo/workspace/bio-hist/test/hello_test.cpp",
+		"/home/alareo/workspace/bio-hist/test/CMakeLists.txt",
+		"/home/alareo/workspace/bio-hist/src/CMakeLists.txt",
+		"/home/alareo/workspace/bio-hist/src/SignalProcessor.cpp",
+		"/home/alareo/workspace/bio-hist/include/SignalProcessor.h",
+		"/home/alareo/workspace/bio-hist/src/bio-hist.cpp",
+		"/home/alareo/workspace/bio-hist/src/ErrorFilter.cpp",
+		"/home/alareo/workspace/bio-hist/include/ErrorFilter.h",
+		"/home/alareo/workspace/bio-hist/src/bio-transitions.cpp",
+		"/home/alareo/Dropbox/GNB/2020/paper-electromotor-model/revisiones/03 Revision Paco-Pablo/Notas",
+		"/home/alareo/workspace/bio-hist/include/SpikesObserver.h",
+		"/home/alareo/workspace/bio-hist/bio-bin.sublime-project",
+		"/home/alareo/workspace/bio-hist/test/test_main.cpp",
+		"/home/alareo/Dropbox/GNB/2020/fish-analysis/fedora-gaea/analysis.m",
+		"/home/alareo/Documents/Clases Particulares Borja.md",
+		"/home/alareo/workspace/bio-utils/WordTransitions/generate_word_transition_plots.sh",
+		"/home/alareo/workspace/bio-utils/WordTransitions/TransitionsBarPlot.m",
+		"/home/alareo/workspace/bio-hist/test/files/config.yaml",
+		"/home/alareo/workspace/bio-hist/include/BinSignalGenerator.h",
+		"/home/alareo/workspace/bio-hist/src/BitsObserver.cpp",
+		"/home/alareo/workspace/bio-hist/include/Transitions.h",
+		"/home/alareo/workspace/bio-hist/include/SpikeDetector.h",
+		"/home/alareo/workspace/bio-hist/bin/tests",
+		"/home/alareo/workspace/bio-hist/CMakeLists.txt",
+		"/home/alareo/workspace/bio-hist/include/common.h",
+		"/home/alareo/workspace/cpp-template/.gitignore",
+		"/home/alareo/workspace/bio-hist/.gitignore",
+		"/home/alareo/workspace/bio-hist/std-config.yaml",
+		"/home/alareo/workspace/cpp-template/.gitmodules",
+		"/home/alareo/workspace/bio-hist/include/pezHist.h",
+		"/home/alareo/workspace/cpp-template/src/CMakeLists.txt",
+		"/home/alareo/workspace/cpp-template/CMakeLists.txt",
+		"/home/alareo/workspace/bio-hist/config.yaml",
+		"/home/alareo/workspace/bio-utils/subsetBiofiles/subsetLines.sh",
+		"/home/alareo/workspace/bio-hist/src/SpikesObserver.cpp",
+		"/home/alareo/workspace/bio-hist/include/BitsObserver.h",
+		"/home/alareo/workspace/bio-hist/include/HDF5TransitionsWriter.h",
+		"/home/alareo/workspace/bio-hist/src/HDF5HistWriter.cpp",
+		"/home/alareo/workspace/bio-utils/spkTimesCharts/impulseChart.m",
+		"/home/alareo/workspace/bio-utils/WordTransitions/script_paper_CNS17.sh",
+		"/media/alareo/TOSHIBA/GNB-Doctorado/Documents/GNB 2017-2018/fish-analysis/fedora-gaea/analysis.m",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es,user=alareo/home/alareo/workspace/bio-utils/WordTransitions/script_paper_CNS17.sh",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es,user=alareo/home/alareo/workspace/efish-nmodel/scripts/generate_IPIs_charts.sh",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es,user=alareo/home/alareo/workspace/bio-utils/WordTransitions/generate_word_transition_plots.sh",
+		"/home/alareo/Dropbox/TI-UAM/Informe Germán Plataformas de Pago - Ecommerce",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es,user=alareo/home/alareo/workspace/efish-nmodel/configs/GAfit/RGA003model.yaml",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es,user=alareo/home/alareo/workspace/efish-nmodel/configs/GAfit/AGA007model.yaml",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es,user=alareo/home/alareo/workspace/efish-nmodel/configs/GAfit/AHT001model.yaml",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es,user=alareo/home/alareo/workspace/efish-nmodel/scripts/octave_IPIs_mean_variance_analysis_paper.m",
+		"/home/alareo/Dropbox/TI-UAM/Comandos.md",
+		"/home/alareo/Dropbox/TI-UAM/Installing Ironwood.md",
+		"/home/alareo/Dropbox/TI-UAM/ecommerce.md",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es,user=alareo/home/alareo/workspace/efish-nmodel/configs/GAfit/AGA000model.yaml",
+		"/home/alareo/workspace/octave_IPIs_mean_variance_analysis.m",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es,user=alareo/home/alareo/workspace/efish-nmodel/configs/GAfit/RGA000model.yaml",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es,user=alareo/home/alareo/workspace/efish-nmodel/plot/model_analysis.plot",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es,user=alareo/home/alareo/workspace/efish-nmodel/scripts/model_analysis.m",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es,user=alareo/home/alareo/workspace/efish-nmodel/scripts/model_analysis.sh",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es,user=alareo/home/alareo/workspace/efish-nmodel/configs/GAfit/RGA000.yaml",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es,user=alareo/home/alareo/workspace/efish-nmodel/configs/GAfit/AGA005model.yaml",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es,user=alareo/home/alareo/workspace/efish-nmodel/results/GAfit/ok-models/Paper/R-GA/testGAmodel.yaml",
+		"/home/alareo/Dropbox/GNB/2019/paper-electromotor-model/efish-nmodel-paper/bibliography.bib",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es,user=alareo/home/alareo/workspace/efish-nmodel/configs/GAfit/AGA001model.yaml",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es,user=alareo/home/alareo/workspace/efish-nmodel/results/GAfit/ok-models/Paper/A-GA/testGAmodel.yaml",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es,user=alareo/home/alareo/workspace/efish-nmodel/configs/GAfit/AGA002model.yaml",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es,user=alareo/home/alareo/workspace/efish-nmodel/configs/GAfit/AGA004model.yaml",
+		"/home/alareo/workspace/eea-model/XLSLoader.py",
+		"/home/alareo/workspace/eea-model/Scenarios.py",
+		"/home/alareo/workspace/eea-model/main.py",
+		"/home/alareo/workspace/eea-model/Configuration.py",
+		"/home/alareo/workspace/eea-model/Sectors.py",
+		"/home/alareo/workspace/eea-model/Readme.md",
+		"/home/alareo/workspace/eea-model/XLSWriter.py",
+		"/home/alareo/workspace/eea-model/config.yaml",
+		"/home/alareo/workspace/eea-model/Excel2YAML.py",
+		"/media/alareo/Iomega HDD/Documentos/2019_10_14_EnglishPresentations/2019_10_14_EnglishPresentations.md",
+		"/home/alareo/Music/Playlists/Synth Invaders/SynthInvaders.m3u",
+		"/home/alareo/Music/Playlists/Synth Invaders/Synth-Invaders.m3u",
+		"/home/alareo/workspace/eea-model/ModelConstants.py",
+		"/home/alareo/workspace/eea-model/Excel2CSV.py",
+		"/run/user/1000/gvfs/mtp:host=Lenovo_Lenovo_K6_5785dae0/Almacenamiento interno/Music/Berri Txarrak Setlist/BerriTxarrakSetlist.m3u",
+		"/home/alareo/Downloads/BerriTxarrakSetlist.m3u",
+		"/run/user/1000/gvfs/mtp:host=Lenovo_Lenovo_K6_5785dae0/Almacenamiento interno/Music/Berri Txarrak Setlist/BerriTxarrakSetlist2.m3u",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es,user=alareo/home/alareo/workspace/efish-nmodel/scripts/octave_IPIs_mean_variance_analysis.m",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es,user=alareo/home/alareo/workspace/efish-nmodel/results/GAfit/ok-models/Paper/R-GA/analysisSca.dat",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es,user=alareo/home/alareo/workspace/efish-nmodel/results/GAfit/ok-models/Paper/R-GA/analysis.dat",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es,user=alareo/home/alareo/workspace/efish-nmodel/src/emmodelAnalysis.cpp",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es,user=alareo/home/alareo/workspace/bio-utils/removeImpulseSpikes/removeImpulseSpikes.m",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es,user=alareo/home/alareo/workspace/efish-nmodel/scripts/robustnessEvolutionAnalysis.sh",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es,user=alareo/home/alareo/workspace/efish-nmodel/src/emmodel.cpp",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es/home/alareo/workspace/efish-nmodel/scripts/octave_IPIs_mean_variance_analysis.m",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es/home/alareo/workspace/efish-nmodel/results/GAfit/ok-models/Paper/A-GA/testGAmodel.yaml",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es/home/alareo/workspace/efish-nmodel/results/GAfit/ok-models/Paper/R-GA/testGAmodel.yaml",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es/home/alareo/workspace/efish-nmodel/src/emmodelAnalysis.cpp",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es/home/alareo/workspace/efish-nmodel/scripts/modelAnalysisIPIsScript.sh",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es,user=alareo/home/alareo/workspace/efish-nmodel/include/ElectromotorModel.hpp",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es,user=alareo/home/alareo/workspace/efish-nmodel/include/ProblemConfig.hpp",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es,user=alareo/home/alareo/workspace/bio-hist/src/HDF5HistWriter.cpp",
+		"/media/alareo/5C24243024241016/Documents and Settings/alareo/Documents/Backups/2019_01_14_GNB_HDD/Code/efish-nmodel/include/ElectromotorModel.hpp",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es,user=alareo/home/alareo/workspace/efish-nmodel/src/CMakeLists.txt",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es,user=alareo/home/alareo/workspace/efish-nmodel/results/GAfit/model_analysis.dat",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es,user=alareo/home/alareo/workspace/efish-nmodel/libs/libStats/CMakeLists.txt",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es,user=alareo/home/alareo/workspace/efish-nmodel/CMakeLists.txt",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es,user=alareo/home/alareo/workspace/bio-hist/include/HDF5HistWriter.h",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es,user=alareo/home/alareo/workspace/bio-hist/src/CMakeLists.txt",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es,user=alareo/home/alareo/workspace/efish-nmodel/include/common.hpp",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es,user=alareo/home/alareo/workspace/efish-nmodel/src/emmodelGAfit.cpp",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es,user=alareo/home/alareo/workspace/efish-nmodel/results/GAfit/ok-models/Paper/A-GA/model_analysis_IPIs.dat",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es/home/alareo/workspace/efish-nmodel/scripts/generate_IPIs_charts.sh",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es/home/alareo/workspace/efish-nmodel/results/GAfit/model_analysis_2_45_50.dat",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es/home/alareo/workspace/efish-nmodel/src/emmodelAnalysis2.cpp",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es/home/alareo/workspace/efish-nmodel/results/GAfit/model_analysis_2_0_05.dat",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es/home/alareo/workspace/efish-nmodel/src/CMakeLists.txt",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es,user=alareo/home/alareo/workspace/efish-nmodel/scripts/generate_evaltest.sh",
+		"/home/alareo/.config/i3/config",
+		"/home/alareo/Dropbox/Fanzines Ecología Vero/Referencias Fanzine",
+		"/home/alareo/Dropbox/TI-UAM/Installing Ironwood",
+		"/home/alareo/Dropbox/(A)/NOTAS La gran transformación",
+		"/home/alareo/Dropbox/GNB/2019/results/CNS19/raspRegular.IPIs",
+		"/home/alareo/Dropbox/GNB/2019/results/CNS19/raspGood.IPIs",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es,user=alareo/home/alareo/workspace/efish-nmodel/results/GAfit/model_analysis_IPIs_BUENOS_MALOS_REGULAR.dat",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es,user=alareo/home/alareo/workspace/efish-nmodel/results/GAfit/model_analysis_IPIs.dat",
+		"/home/alareo/Dropbox/TI-UAM/LOGS-Analytics.md",
+		"/run/user/1000/gvfs/sftp:host=elephant.ii.uam.es,user=alareo/home/alareo/workspace/efish-nmodel/src/evalTest.cpp",
+		"/home/alareo/Dropbox/GNB/2019/results/efish-nmodel/configs/Option2/C - Fitted to Real Patterns/test.dat",
+		"/home/alareo/Downloads/Formación Junio 2019.html",
+		"/home/alareo/Dropbox/GNB/2019/results/efish-nmodel/configs/Option2/B2 - Fitted to Artificial Patterns/testGAmodel.yaml",
+		"/home/alareo/Dropbox/GNB/2019/results/efish-nmodel/configs/Option2/C - Fitted to Real Patterns/testGAmodel.yaml"
+	],
+	"find":
+	{
+		"height": 40.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 28.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.markdown":
+	{
+		"height": 132.0
+	},
+	"pinned_build_system": "",
+	"project": "bio-bin.sublime-project",
+	"replace":
+	{
+		"height": 52.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"Spike",
+				"include/SpikesObserver.h"
+			],
+			[
+				"Signal",
+				"src/SignalProcessor.cpp"
+			],
+			[
+				"Error",
+				"include/ErrorFilter.h"
+			],
+			[
+				"err",
+				"src/ErrorFilter.cpp"
+			],
+			[
+				"error",
+				"include/ErrorFilter.h"
+			],
+			[
+				"SpikesOb",
+				"include/SpikesObserver.h"
+			],
+			[
+				"test cpp",
+				"test/hello_test.cpp"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 277.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

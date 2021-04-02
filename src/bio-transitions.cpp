@@ -111,15 +111,15 @@ int main(int argc, char* argv[]){
     SignalProcessor sp(info);
     
     for (double bT : info->getBinTimes()){
-        shared_ptr<ErrorFilter> errorFilter(new ErrorFilter(bT, info->getTotalTime(), sp));
+        shared_ptr<ErrorFilter> errorFilter = make_shared<ErrorFilter>(bT, info->getTotalTime(), sp);
         EFilters.push_back(errorFilter);
         sp.attach(errorFilter);
         for (int wL : info->getWordLengths()){
-            shared_ptr<BinSignalGenerator> binSignalGen(new BinSignalGenerator(wL,errorFilter));
+            shared_ptr<BinSignalGenerator> binSignalGen = make_shared<BinSignalGenerator>(wL,errorFilter);
             errorFilter->attach(binSignalGen);
             HistGens.push_back(binSignalGen);
             
-            shared_ptr<Transitions> transitionGen(new Transitions(binSignalGen, binSignalGen->getMaxWords()));
+            shared_ptr<Transitions> transitionGen = make_shared<Transitions>(binSignalGen, binSignalGen->getMaxWords());
             binSignalGen->attach(transitionGen);
             TransitionGens.push_back(transitionGen);
         }
