@@ -10,6 +10,7 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/thirdparty/sanitizers-cmake/cmake" ${
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD 14)
 
+
 set ( LIBRARY_OUTPUT_PATH  ${CMAKE_SOURCE_DIR}/lib)
 set ( EXECUTABLE_OUTPUT_PATH  ${CMAKE_SOURCE_DIR}/bin)
 
@@ -27,3 +28,4 @@ add_subdirectory(libStats)
 add_subdirectory(thirdparty/catch)
 add_subdirectory(src)
 add_subdirectory(test)
+
