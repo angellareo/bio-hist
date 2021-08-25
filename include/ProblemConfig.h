@@ -22,7 +22,7 @@
 
 #include <iostream>
 #include <fstream>
-#include <yaml.h>
+#include <yaml-cpp/yaml.h>
 #include <string>
 
 class ProblemConfig
