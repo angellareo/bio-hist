@@ -12,10 +12,10 @@ stages:
 jobs:
   include:
     - stage: format
-      dist: trusty
+      dist: focal
       script: ./tools/run-clang-format.py -r src test
     - stage: static analysis
-      dist: trusty
+      dist: focal
       script: ./tools/tidy
     - stage: build
       os: osx
@@ -23,12 +23,12 @@ jobs:
     - stage: build
       os: linux
       sudo: required
-      dist: trusty
+      dist: focal
       before_install: false
       addons:
         apt:
           sources:
-            - llvm-toolchain-trusty-6.0
+            - llvm-toolchain-focal-6.0
             - ubuntu-toolchain-r-test
           packages:
             - clang-6.0
@@ -38,7 +38,7 @@ jobs:
     - stage: build
       os: linux
       sudo: required
-      dist: trusty
+      dist: focal
       before_install: false
       addons:
         apt:
@@ -59,12 +59,12 @@ jobs:
     - stage: address sanitizer
       os: linux
       sudo: required
-      dist: trusty
+      dist: focal
       before_install: false
       addons:
         apt:
           sources:
-            - llvm-toolchain-trusty-6.0
+            - llvm-toolchain-focal-6.0
             - ubuntu-toolchain-r-test
           packages:
             - clang-6.0
@@ -74,12 +74,12 @@ jobs:
     - stage: thread sanitizer
       os: linux
       sudo: required
-      dist: trusty
+      dist: focal
       before_install: false
       addons:
         apt:
           sources:
-            - llvm-toolchain-trusty-6.0
+            - llvm-toolchain-focal-6.0
             - ubuntu-toolchain-r-test
           packages:
             - clang-6.0
@@ -89,12 +89,12 @@ jobs:
     - stage: undefined behavior sanitizer
       os: linux
       sudo: required
-      dist: trusty
+      dist: focal
       before_install: false
       addons:
         apt:
           sources:
-            - llvm-toolchain-trusty-6.0
+            - llvm-toolchain-focal-6.0
             - ubuntu-toolchain-r-test
           packages:
             - clang-6.0
@@ -104,8 +104,8 @@ jobs:
 
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-add-repository "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-6.0 main"; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-add-repository "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu trusty main"; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-add-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-6.0 main"; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-add-repository "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu focal main"; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get update -qq; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install -y --allow-unauthenticated libllvm6.0 libstdc++6 clang-format-6.0 clang-tidy-6.0; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
